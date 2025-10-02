@@ -1,0 +1,122 @@
+[
+  {
+    "name": "The Pragmatic Programmer",
+    "price": 29.99,
+    "category": "books",
+    "description": "Classic book on software engineering."
+  },
+  {
+    "name": "Clean Code",
+    "price": 34.5,
+    "category": "books",
+    "description": "Guide to writing clean, maintainable code."
+  },
+  {
+    "name": "Harry Potter Box Set",
+    "price": 85,
+    "category": "books",
+    "description": "Complete collection of Harry Potter novels."
+  },
+  {
+    "name": "Atomic Habits",
+    "price": 22,
+    "category": "books",
+    "description": "Bestselling book on building better habits."
+  },
+  {
+    "name": "Apple iPhone 14",
+    "price": 999,
+    "category": "electronics",
+    "description": "Latest iPhone model with A15 Bionic chip."
+  },
+  {
+    "name": "Samsung Galaxy S23",
+    "price": 899,
+    "category": "electronics",
+    "description": "High-end Android smartphone with AMOLED display."
+  },
+  {
+    "name": "Sony WH-1000XM5",
+    "price": 399.99,
+    "category": "electronics",
+    "description": "Noise-cancelling over-ear headphones."
+  },
+  {
+    "name": "Kindle Paperwhite",
+    "price": 129.99,
+    "category": "electronics",
+    "description": "E-reader with 6.8-inch display and warm light."
+  },
+  {
+    "name": "MacBook Air M2",
+    "price": 1199,
+    "category": "electronics",
+    "description": "Lightweight laptop with Apple M2 chip."
+  },
+  {
+    "name": "Dell Ultrasharp Monitor",
+    "price": 349.5,
+    "category": "electronics",
+    "description": "27-inch 4K UltraSharp monitor."
+  },
+  {
+    "name": "Men's Leather Jacket",
+    "price": 199.5,
+    "category": "clothing",
+    "description": "Stylish and durable black leather jacket."
+  },
+  {
+    "name": "Women's Sneakers",
+    "price": 75,
+    "category": "clothing",
+    "description": "Comfortable sneakers suitable for everyday wear."
+  },
+  {
+    "name": "Winter Coat",
+    "price": 150,
+    "category": "clothing",
+    "description": "Warm and insulated coat for cold weather."
+  },
+  {
+    "name": "Sports T-shirt",
+    "price": 25,
+    "category": "clothing",
+    "description": "Breathable cotton t-shirt for training."
+  },
+  {
+    "name": "Casual Jeans",
+    "price": 49.99,
+    "category": "clothing",
+    "description": "Blue slim-fit jeans for everyday wear."
+  },
+  {
+    "name": "Office Chair",
+    "price": 150,
+    "category": "other",
+    "description": "Ergonomic office chair with adjustable height."
+  },
+  {
+    "name": "Coffee Maker",
+    "price": 120,
+    "category": "other",
+    "description": "Automatic drip coffee machine with timer."
+  },
+  {
+    "name": "Gaming Desk",
+    "price": 250,
+    "category": "other",
+    "description": "Spacious desk designed for gaming setup."
+  },
+  {
+    "name": "Vacuum Cleaner",
+    "price": 180,
+    "category": "other",
+    "description": "Powerful vacuum cleaner with HEPA filter."
+  },
+  {
+    "name": "Mountain Bike",
+    "price": 600,
+    "category": "other",
+    "description": "Durable mountain bike for off-road cycling."
+  }
+]
