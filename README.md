@@ -1,2 +1,12 @@
-This repository contains starter files for blended practical lessons.
-It provides a ready-to-use project structure so students can focus on learning and exercises without extra setup.
+# Products API
+
+A simple REST API for managing products using Node.js, Express, and MongoDB.
+
+## 🔹 Technologies
+
+- Node.js v22+
+- Express
+- MongoDB (Atlas / local)
+- Mongoose
+- Cors
+- http-errors
