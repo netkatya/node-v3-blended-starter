@@ -1,5 +1,6 @@
 
 import { model, Schema } from "mongoose";
+import { CATEGORIES } from "../constants/categories";
 
 const productSchema = new Schema(
     {
@@ -13,14 +14,19 @@ const productSchema = new Schema(
         },
         category: {
             type: String,
-            enum: ['books', 'electronics', 'clothing', 'other'],
+            enum: [...CATEGORIES],
             required: true,
             default: 'other',
         },
         description: {
             type: String,
             required: false,
-        }
+        },
+        userId: {
+            type: Schema.Types.ObjectId,
+            ref: "User",
+            required: true,
+        },
     },
     {
         timestamps: true,
