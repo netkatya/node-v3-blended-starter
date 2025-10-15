@@ -2,6 +2,7 @@ import express from 'express';
 import 'dotenv/config';
 import cors from 'cors';
 
+import {errors} from 'celebrate';
 import { connectMongoDB } from './db/connectMongoDB.js';
 import { logger } from './middleware/logger.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
@@ -19,6 +20,9 @@ app.use('/products', productsRouter);
 
 // heandle 404
 app.use(notFoundHandler);
+
+// handle celebrate errors
+app.use(errors());
 
 // handle errors
 app.use(errorHandler);
