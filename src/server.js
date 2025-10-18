@@ -2,6 +2,8 @@ import express from 'express';
 import 'dotenv/config';
 import cors from 'cors';
 import helmet from "helmet";
+
+import {errors} from 'celebrate';
 import { connectMongoDB } from './db/connectMongoDB.js';
 import { logger } from './middleware/logger.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
@@ -24,6 +26,9 @@ app.use(authRoutes)
 
 // heandle 404
 app.use(notFoundHandler);
+
+// handle celebrate errors
+app.use(errors());
 
 // handle errors
 app.use(errorHandler);
