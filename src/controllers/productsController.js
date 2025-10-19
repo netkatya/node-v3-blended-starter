@@ -9,7 +9,13 @@ import {
 } from '../services/productsService.js';
 
 export const getProducts = async (req, res) => {
-  const { page = 1, perPage = 10, category, sortBy = "price", sortOrder  = "asc" } = req.query;
+  const {
+    page = 1,
+    perPage = 10,
+    category,
+    sortBy = 'price',
+    sortOrder = 'asc',
+  } = req.query;
 
   console.log('Query params:', {
     page,
@@ -25,7 +31,8 @@ export const getProducts = async (req, res) => {
 
   // filter, search, by category, sortBy, sortOrder
 
-  const filter = {};
+  const filter = { userId: req.user._id };
+
   if (category) {
     console.log('Filter by category:', category);
     filter.category = category;
@@ -51,7 +58,11 @@ export const getProducts = async (req, res) => {
 
 export const getProductById = async (req, res, next) => {
   const { productId } = req.params;
-  const product = await getProductByIdService(productId);
+  const product = await getProductByIdService({
+    _id: productId,
+    userId: req.user._id,
+  });
+
   if (!product) {
     next(createHttpError(404, 'Product not found'));
     return;
@@ -59,13 +70,28 @@ export const getProductById = async (req, res, next) => {
   res.status(200).json(product);
 };
 export const createProduct = async (req, res) => {
-  const product = await createProductService(req.body);
+  const product = await createProductService({
+    ...req.body,
+    userId: req.user._id,
+  });
   res.status(201).json(product);
 };
 
 export const deleteProduct = async (req, res, next) => {
   const { productId } = req.params;
-  const product = await deleteProductService(productId);
+
+  console.log('🗑️ Attempting to delete product:', {
+    productId,
+    userId: req.user._id.toString(),
+  });
+
+  const product = await deleteProductService({
+    _id: productId,
+    userId: req.user._id,
+  });
+
+  console.log('🗑️ Delete result:', product);
+
   if (!product) {
     next(createHttpError(404, 'Product not found'));
     return;
@@ -75,7 +101,12 @@ export const deleteProduct = async (req, res, next) => {
 
 export const updateProduct = async (req, res, next) => {
   const { productId } = req.params;
-  const product = await updateProductService({ productId, body: req.body });
+  const product = await updateProductService({
+    _id: productId,
+    body: req.body,
+    userId: req.user._id,
+  });
+
   if (!product) {
     next(createHttpError(404, 'Product not found'));
     return;

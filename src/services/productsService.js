@@ -21,22 +21,23 @@ export const countProductsService = async (filter = {}) => {
   return await Product.countDocuments(filter);
 };
 
-export const getProductByIdService = async (productId) => {
-  return await Product.findById(productId);
+export const getProductByIdService = async (filter) => {
+  return await Product.findOne(filter);
 };
 
 export const createProductService = async (body) => {
   return await Product.create(body);
 };
 
-export const deleteProductService = async (productId) => {
-  return await Product.findOneAndDelete({
-    _id: productId,
-  });
+export const deleteProductService = async (filter) => {
+  console.log('🔧 Service deleteProduct called with filter:', filter);
+  const result = await Product.findOneAndDelete(filter);
+  console.log('🔧 Service delete result:', result);
+  return result;
 };
 
-export const updateProductService = async ({ productId, body }) => {
-  return await Product.findOneAndUpdate({ _id: productId }, body, {
+export const updateProductService = async ({ filter, body }) => {
+  return await Product.findOneAndUpdate( filter, body, {
     new: true,
   });
 };
