@@ -99,7 +99,7 @@ export const requestResetEmail = async (req, res, next) => {
   );
 
   // handlebars
-  
+
   	// 1. Формуємо шлях до шаблона
   const templatePath = path.resolve('src/templates/reset-password-email.html');
   // 2. Читаємо шаблон
@@ -129,3 +129,27 @@ export const requestResetEmail = async (req, res, next) => {
   });
 };
 
+export const resetPassword = async (req, res, next) => {
+	const { token, password } = req.body;
+  let payload;
+  try {
+    payload = jwt.verify(token, process.env.JWT_SECRET);
+  } catch {
+    next(createHttpError(401, 'Invalid or expired token'));
+    return;
+  }
+  const user = await User.findOne({  _id: payload.sub,  email: payload.email });
+  if (!user) {
+    next(createHttpError(404, 'User not found'));
+    return;
+  }
+  const hashedPassword = await bcrypt.hash(password, 10);
+  await User.updateOne(
+	  { _id: user._id },
+	  { password: hashedPassword }
+  );
+  await Session.deleteMany({ userId: user._id });
+  res.status(200).json({
+    message: 'Password reset successfully. Please log in again.',
+  });
+};
