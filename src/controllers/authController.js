@@ -83,19 +83,16 @@ export const requestResetEmail = async (req, res, next) => {
   const { email } = req.body;
 
   const user = await User.findOne({ email });
-  // Якщо користувача нема — навмисно повертаємо ту саму "успішну"
-  // відповідь без відправлення листа (anti user enumeration).
+
   if (!user) {
-    return res.status(200).json({
-      message: 'If this email exists, a reset link has been sent',
-    });
+    return next(createHttpError(404, 'User not found'));
   }
 
 	// Користувач є — генеруємо короткоживучий JWT і відправляємо лист
   const resetToken = jwt.sign(
     { sub: user._id, email },
     process.env.JWT_SECRET,
-    { expiresIn: '15m' },
+    { expiresIn: '20m' },
   );
 
   // handlebars
@@ -120,12 +117,12 @@ export const requestResetEmail = async (req, res, next) => {
       html,
     });
   } catch {
-    next(createHttpError(500, 'Failed to send the email, please try again later.'));
+    next(createHttpError(500, 'Failed to send the email.'));
     return;
   }
 
   res.status(200).json({
-    message: 'If this email exists, a reset link has been sent',
+    message: 'Password reset email sent successfully',
   });
 };
 
@@ -150,6 +147,6 @@ export const resetPassword = async (req, res, next) => {
   );
   await Session.deleteMany({ userId: user._id });
   res.status(200).json({
-    message: 'Password reset successfully. Please log in again.',
+    message: 'Password reset successfully',
   });
 };
