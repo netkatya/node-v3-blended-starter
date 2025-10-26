@@ -12,8 +12,7 @@ import { errorHandler } from './middleware/errorHandler.js';
 
 import productsRouter from './routes/productsRoutes.js';
 import authRoutes from './routes/authRoutes.js';
-import userRoutes from './routes/userRoutes.js'
-import cookieParser from "cookie-parser";
+import userRoutes from './routes/userRoutes.js';
 import { swaggerDocs } from './swagger/swagger.js';
 
 const app = express();
