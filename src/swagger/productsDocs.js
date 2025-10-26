@@ -7,6 +7,62 @@
 
 /**
  * @openapi
+ * components:
+ *   schemas:
+ *     Product:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *           example: 64e9d4a7e43fbe3b58cfb7a2
+ *         name:
+ *           type: string
+ *           example: iPhone 15
+ *         price:
+ *           type: number
+ *           example: 1299.99
+ *         category:
+ *           type: string
+ *           enum: [Books, Electronics, Clothing, Other]
+ *           example: Electronics
+ *         userId:
+ *           type: string
+ *           description: ID of the user who owns the product
+ *
+ *     ProductCreate:
+ *       type: object
+ *       required:
+ *         - name
+ *         - price
+ *       properties:
+ *         name:
+ *           type: string
+ *           example: MacBook Air
+ *         price:
+ *           type: number
+ *           example: 1999.99
+ *         category:
+ *           type: string
+ *           enum: [Books, Electronics, Clothing, Other]
+ *           example: Electronics
+ *
+ *     ProductUpdate:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *           example: MacBook Pro
+ *         price:
+ *           type: number
+ *           example: 2199.99
+ *         category:
+ *           type: string
+ *           enum: [Books, Electronics, Clothing, Other]
+ *           example: Electronics
+ */
+
+/**
+ * @openapi
  * /products:
  *   get:
  *     summary: Get all products
@@ -28,7 +84,8 @@
  *         name: category
  *         schema:
  *           type: string
- *         description: Filter by category
+ *           enum: [Books, Electronics, Clothing, Other]
+ *         description: Filter products by category
  *       - in: query
  *         name: sortBy
  *         schema:
@@ -39,6 +96,7 @@
  *         schema:
  *           type: string
  *           enum: [asc, desc]
+ *           default: asc
  *     responses:
  *       200:
  *         description: List of products
@@ -65,7 +123,7 @@
  * @openapi
  * /products/{productId}:
  *   get:
- *     summary: Get product by ID
+ *     summary: Get a product by ID
  *     tags: [Products]
  *     security:
  *       - bearerAuth: []
@@ -78,6 +136,10 @@
  *     responses:
  *       200:
  *         description: Product found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Product'
  *       404:
  *         description: Product not found
  */
@@ -123,7 +185,7 @@
  *             $ref: '#/components/schemas/ProductUpdate'
  *     responses:
  *       200:
- *         description: Product updated
+ *         description: Product updated successfully
  *       404:
  *         description: Product not found
  */
@@ -148,45 +210,4 @@
  *       404:
  *         description: Product not found
  */
-
-/**
- * @openapi
- * components:
- *   schemas:
- *     Product:
- *       type: object
- *       properties:
- *         _id:
- *           type: string
- *           example: 64e9d4a7e43fbe3b58cfb7a2
- *         name:
- *           type: string
- *           example: iPhone 15
- *         price:
- *           type: number
- *           example: 1299.99
- *         category:
- *           type: string
- *           example: Electronics
- *     ProductCreate:
- *       type: object
- *       required: [name, price]
- *       properties:
- *         name:
- *           type: string
- *         price:
- *           type: number
- *         category:
- *           type: string
- *     ProductUpdate:
- *       type: object
- *       properties:
- *         name:
- *           type: string
- *         price:
- *           type: number
- *         category:
- *           type: string
- */
-
 

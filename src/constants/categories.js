@@ -1,6 +1,7 @@
 export const CATEGORIES = [
-    'books',
-    'electronics',
-    'clothing',
-    'other'
+    'vases',
+    'mirrors',
+    'plants',
+    'clocks',
+    'candles'
 ]
