@@ -69,6 +69,7 @@ export const getProductById = async (req, res, next) => {
   }
   res.status(200).json(product);
 };
+
 export const createProduct = async (req, res) => {
   const product = await createProductService({
     ...req.body,
@@ -102,9 +103,8 @@ export const deleteProduct = async (req, res, next) => {
 export const updateProduct = async (req, res, next) => {
   const { productId } = req.params;
   const product = await updateProductService({
-    _id: productId,
     body: req.body,
-    userId: req.user._id,
+    filter: { _id: productId, userId: req.user._id },
   });
 
   if (!product) {

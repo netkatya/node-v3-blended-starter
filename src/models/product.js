@@ -21,6 +21,11 @@ const productSchema = new Schema(
       type: String,
       required: false,
     },
+    image: {
+      type: String,
+      required: true,
+    },
+
     userId: {
       type: Schema.Types.ObjectId,
       ref: 'User',
@@ -34,12 +39,12 @@ const productSchema = new Schema(
 );
 
 productSchema.index(
-    { name: 'text' },
-    {
-      name: 'StudentTextIndex',
-      weights: { name: 10 },
-      default_language: 'english',
-    },
-  );
+  { name: 'text' },
+  {
+    name: 'StudentTextIndex',
+    weights: { name: 10 },
+    default_language: 'english',
+  },
+);
 
 export const Product = model('Product', productSchema);
