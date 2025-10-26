@@ -13,9 +13,14 @@ import { errorHandler } from './middleware/errorHandler.js';
 import productsRouter from './routes/productsRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js'
+import cookieParser from "cookie-parser";
+import { swaggerDocs } from './swagger/swagger.js';
 
 const app = express();
 const PORT = process.env.PORT ?? 3030;
+
+swaggerDocs(app, PORT);
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 app.use(logger);
 app.use(express.json());

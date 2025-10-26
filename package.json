@@ -29,10 +29,15 @@
     "crypto": "^1.0.1",
     "dotenv": "^17.0.1",
     "express": "^5.1.0",
+    "handlebars": "^4.7.8",
     "helmet": "^8.1.0",
     "http-errors": "^2.0.0",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.19.0",
     "multer": "^2.0.2",
     "pino-http": "^10.5.0"
+    "nodemailer": "^7.0.10",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   }
 }
