@@ -19,10 +19,15 @@ import { authenticate } from "../middleware/authenticate.js";
 
 const router = Router();
 
-router.use(authenticate);
+
+
+
 
 router.get('/', celebrate(getProductsSchema), getProducts);
 router.get('/:productId', celebrate(productIdSchema), getProductById);
+
+// authent should be before get"/"
+router.use(authenticate);
 router.post('/', celebrate(createProductSchema), createProduct);
 router.delete('/:productId', celebrate(productIdSchema), deleteProduct);
 router.patch('/:productId', celebrate(updateProductSchema), updateProduct);

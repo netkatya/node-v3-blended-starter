@@ -31,7 +31,9 @@ export const getProducts = async (req, res) => {
 
   // filter, search, by category, sortBy, sortOrder
 
-  const filter = { userId: req.user._id };
+  const filter = {
+    // userId: req.user._id
+  };
 
   if (category) {
     console.log('Filter by category:', category);
