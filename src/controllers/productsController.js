@@ -61,7 +61,7 @@ export const getProductById = async (req, res, next) => {
   const { productId } = req.params;
   const product = await getProductByIdService({
     _id: productId,
-    userId: req.user._id,
+    // userId: req.user._id,
   });
 
   if (!product) {
