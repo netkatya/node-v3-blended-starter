@@ -23,10 +23,7 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 app.use(logger);
 app.use(express.json());
-app.use(cors({
-  origin: "http://localhost:3000",
-  credentials: true,
-}));
+app.use(cors());
 app.use(helmet())
 app.use(cookieParser());
 
