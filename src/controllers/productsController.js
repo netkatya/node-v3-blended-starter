@@ -11,7 +11,7 @@ import {
 export const getProducts = async (req, res) => {
   const {
     page = 1,
-    perPage = 10,
+    perPage = 8,
     category,
     sortBy = 'price',
     sortOrder = 'asc',
