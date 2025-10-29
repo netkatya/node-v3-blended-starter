@@ -154,7 +154,7 @@ export const getMe = async (req, res, next) => {
       return next(createHttpError(401, 'No token'));
     }
 
-    const payload = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
 
     const user = await User.findById(payload.sub);
     if (!user) {
