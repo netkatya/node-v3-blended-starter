@@ -88,7 +88,7 @@ export const requestResetEmail = async (req, res, next) => {
     return next(createHttpError(404, 'User not found'));
   }
 
-	// Користувач є — генеруємо короткоживучий JWT і відправляємо лист
+  // Користувач є — генеруємо короткоживучий JWT і відправляємо лист
   const resetToken = jwt.sign(
     { sub: user._id, email },
     process.env.JWT_SECRET,
@@ -97,7 +97,7 @@ export const requestResetEmail = async (req, res, next) => {
 
   // handlebars
 
-  	// 1. Формуємо шлях до шаблона
+  // 1. Формуємо шлях до шаблона
   const templatePath = path.resolve('src/templates/reset-password-email.html');
   // 2. Читаємо шаблон
   const templateSource = await fs.readFile(templatePath, 'utf-8');
@@ -127,7 +127,7 @@ export const requestResetEmail = async (req, res, next) => {
 };
 
 export const resetPassword = async (req, res, next) => {
-	const { token, password } = req.body;
+  const { token, password } = req.body;
   let payload;
   try {
     payload = jwt.verify(token, process.env.JWT_SECRET);
@@ -135,18 +135,37 @@ export const resetPassword = async (req, res, next) => {
     next(createHttpError(401, 'Invalid or expired token'));
     return;
   }
-  const user = await User.findOne({  _id: payload.sub,  email: payload.email });
+  const user = await User.findOne({ _id: payload.sub, email: payload.email });
   if (!user) {
     next(createHttpError(404, 'User not found'));
     return;
   }
   const hashedPassword = await bcrypt.hash(password, 10);
-  await User.updateOne(
-	  { _id: user._id },
-	  { password: hashedPassword }
-  );
+  await User.updateOne({ _id: user._id }, { password: hashedPassword });
   await Session.deleteMany({ userId: user._id });
   res.status(200).json({
     message: 'Password reset successfully',
   });
+};
+export const getMe = async (req, res, next) => {
+  try {
+    const token = req.cookies.accessToken;
+    if (!token) {
+      return next(createHttpError(401, 'No token'));
+    }
+
+    const payload = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+
+    const user = await User.findById(payload.sub);
+    if (!user) {
+      return next(createHttpError(401, 'User not found'));
+    }
+
+    res.status(200).json({
+      id: user._id,
+      email: user.email,
+    });
+  } catch {
+    return next(createHttpError(401, 'Invalid or expired token'));
+  }
 };
