@@ -18,7 +18,7 @@ export const updateUserAvatar = async (req, res, next) => {
     { new: true },
   );
 
-  res.status(200).json({ url: user.avatar });
+  res.status(200).json(user);
 };
 
 export const updateUser = async (req, res, next) => {
