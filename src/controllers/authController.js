@@ -170,6 +170,8 @@ export const getMe = async (req, res, next) => {
     res.status(200).json({
       id: user._id,
       email: user.email,
+      username: user.username,
+      avatar: user.avatar,
     });
   } catch {
     return next(createHttpError(401, 'Invalid or expired token'));
