@@ -154,9 +154,15 @@ export const getMe = async (req, res, next) => {
       return next(createHttpError(401, 'No token'));
     }
 
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    const session = await Session.findOne({
+      _id: req.cookies.sessionId,
+      accessToken: req.cookies.accessToken,
+    });
+    if (!session) {
+      return next(createHttpError(401, 'Session not found'));
+    }
 
-    const user = await User.findById(payload.sub);
+    const user = await User.findById(session.userId);
     if (!user) {
       return next(createHttpError(401, 'User not found'));
     }
