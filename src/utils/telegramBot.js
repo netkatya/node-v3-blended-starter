@@ -1,4 +1,4 @@
-import { TelegramBot } from 'node-telegram-bot-api';
+import TelegramBot from 'node-telegram-bot-api';
 import env from '../utils/env.js';
 import { getUserByID } from '../services/userServices.js';
 import { updateUser } from '../controllers/userController.js';
