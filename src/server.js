@@ -20,7 +20,7 @@ const app = express();
 const PORT = process.env.PORT ?? 3030;
 
 swaggerDocs(app, PORT);
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 app.use(logger);
 app.use(express.json());
