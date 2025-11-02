@@ -6,7 +6,7 @@ import {
   saveFileToCloudinary,
   deleteFileFromCloudinary,
 } from '../utils/saveFileToCloudinary.js';
-import bot from '../utils/telegramBot.js';
+import { sendTBMessage } from '../utils/telegramBot.js';
 
 export const updateUserAvatar = async (req, res, next) => {
   if (!req.file) {
@@ -51,7 +51,7 @@ export const sendTelegramNotification = async (req, res, next) => {
     return res.status(400).json({ message: 'User is not linked to Telegram' });
   }
 
-  await bot.sendMessage(user.telegramChatId, text);
+  await sendTBMessage(user.telegramChatId, text);
   res.send('✅ Повідомлення надіслано');
 
   res.status(200).json({ message: 'Notification sent' });
