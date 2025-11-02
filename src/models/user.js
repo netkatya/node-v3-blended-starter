@@ -10,6 +10,13 @@ const userSchema = new Schema(
       required: false,
       default: 'https://ac.goit.global/fullstack/react/default-avatar.jpg',
     },
+    avatar_id: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    telegramChatId: { type: String, required: false, default: null },
+    telegramLinked: { type: Boolean, required: false, default: false },
   },
   { timestamps: true, versionKey: false },
 );

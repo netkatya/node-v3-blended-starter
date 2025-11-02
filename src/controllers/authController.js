@@ -147,6 +147,7 @@ export const resetPassword = async (req, res, next) => {
     message: 'Password reset successfully',
   });
 };
+
 export const getMe = async (req, res, next) => {
   try {
     const token = req.cookies.accessToken;
@@ -172,6 +173,8 @@ export const getMe = async (req, res, next) => {
       email: user.email,
       username: user.username,
       avatar: user.avatar,
+      telegramChatId: user.telegramChatId,
+      telegramLinked: user.telegramLinked,
     });
   } catch {
     return next(createHttpError(401, 'Invalid or expired token'));
