@@ -6,11 +6,11 @@ export const logger = pino({
     target: 'pino-pretty',
     options: {
       colorize: true,
-      translateTime: 'HH:MM:ss.l',
+      translateTime: 'HH:MM:ss.',
       ignore: 'pid,hostname',
       messageFormat:
         '{req.method} {req.url} {res.statusCode} - {responseTime}ms',
-      // hideObject: true,
+      hideObject: true,
     },
   },
 });
