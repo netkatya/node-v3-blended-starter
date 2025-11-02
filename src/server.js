@@ -14,6 +14,7 @@ import productsRouter from './routes/productsRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import { swaggerDocs } from './swagger/swagger.js';
+import { ordersRouter } from './routes/orderRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT ?? 3030;
@@ -29,7 +30,9 @@ app.use(cookieParser());
 
 app.use('/products', productsRouter);
 app.use(authRoutes);
-app.use(userRoutes)
+app.use(userRoutes);
+
+app.use("/orders", ordersRouter);
 
 // handle 404
 app.use(notFoundHandler);

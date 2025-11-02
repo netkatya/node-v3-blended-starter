@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { celebrate } from 'celebrate';
-import { registerUser,loginUser,logoutUser,refreshUserSession, requestResetEmail,resetPassword} from '../controllers/authController.js';
+import { registerUser,loginUser,logoutUser,refreshUserSession, requestResetEmail,resetPassword,getMe} from '../controllers/authController.js';
 import { registerUserSchema, loginUserSchema, requestResetEmailSchema ,resetPasswordSchema} from '../validation/authValidation.js';
 
 
@@ -18,5 +18,6 @@ router.post(
   celebrate(resetPasswordSchema),
   resetPassword
 );
+router.get('/auth/me', getMe);
 
 export default router;

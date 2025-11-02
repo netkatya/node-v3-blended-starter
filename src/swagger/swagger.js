@@ -3,7 +3,6 @@ import swaggerUi from 'swagger-ui-express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// Нужно, чтобы корректно вычислить абсолютные пути
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
