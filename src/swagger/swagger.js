@@ -17,15 +17,15 @@ const options = {
     },
     servers: [
       {
-        url: 'http://localhost:3030', // адрес твоего сервера
+        url: 'node-v3-blended-starter.onrender.com',
       },
     ],
   },
 
-  // 🔥 Важно! Пути к файлам, где лежат аннотации Swagger
+
   apis: [
-    path.join(__dirname, '../routes/*.js'), // если аннотации в routes
-    path.join(__dirname, './*.js'),         // и все файлы внутри src/swagger
+    path.join(__dirname, '../routes/*.js'),
+    path.join(__dirname, './*.js'),
   ],
 };
 
