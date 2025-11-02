@@ -14,7 +14,6 @@ export const getProductsService = async ({
   const sort = {};
   sort[sortBy] = sortOrder === 'asc' ? 1 : -1;
   return await Product.find(filter).sort(sort).skip(skip).limit(limit);
-
 };
 
 export const countProductsService = async (filter = {}) => {
@@ -37,7 +36,7 @@ export const deleteProductService = async (filter) => {
 };
 
 export const updateProductService = async ({ filter, body }) => {
-  return await Product.findOneAndUpdate( filter, body, {
+  return await Product.findOneAndUpdate(filter, body, {
     new: true,
   });
 };

@@ -1,9 +1,9 @@
 import express from 'express';
 import 'dotenv/config';
 import cors from 'cors';
-import helmet from "helmet";
-import {errors} from 'celebrate';
-import cookieParser from "cookie-parser";
+import helmet from 'helmet';
+import { errors } from 'celebrate';
+import cookieParser from 'cookie-parser';
 
 import { connectMongoDB } from './db/connectMongoDB.js';
 import { logger } from './middleware/logger.js';
@@ -25,14 +25,14 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 app.use(logger);
 app.use(express.json());
 app.use(cors());
-app.use(helmet())
+app.use(helmet());
 app.use(cookieParser());
 
-app.use('/products', productsRouter);
 app.use(authRoutes);
 app.use(userRoutes);
 
 app.use("/orders", ordersRouter);
+app.use('/products', productsRouter);
 
 // handle 404
 app.use(notFoundHandler);
@@ -42,7 +42,6 @@ app.use(errors());
 
 // handle errors
 app.use(errorHandler);
-
 
 await connectMongoDB();
 app.listen(PORT, () => {

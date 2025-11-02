@@ -2,7 +2,12 @@
 
 import { Router } from 'express';
 import { authenticate } from '../middleware/authenticate.js';
-import { updateUser, updateUserAvatar } from '../controllers/userController.js';
+import {
+  updateUser,
+  updateUserAvatar,
+  getTelegramStatus,
+  sendTelegramNotification,
+} from '../controllers/userController.js';
 import { upload } from '../middleware/multer.js';
 
 const router = Router();
@@ -15,5 +20,8 @@ router.patch(
 );
 
 router.patch('/users/me', authenticate, updateUser);
+
+router.get('/users/:userId/telegram-status', authenticate, getTelegramStatus);
+router.get('/users/notify', authenticate, sendTelegramNotification);
 
 export default router;
