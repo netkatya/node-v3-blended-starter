@@ -28,11 +28,13 @@ app.use(cors());
 app.use(helmet());
 app.use(cookieParser());
 
+app.use('/products', productsRouter);
+
 app.use(authRoutes);
 app.use(userRoutes);
 
 app.use("/orders", ordersRouter);
-app.use('/products', productsRouter);
+
 
 // handle 404
 app.use(notFoundHandler);
