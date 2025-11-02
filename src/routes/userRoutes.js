@@ -22,7 +22,6 @@ router.patch(
 router.patch('/users/me', authenticate, updateUser);
 
 router.get('/users/:userId/telegram-status', authenticate, getTelegramStatus);
-
 router.get('/users/notify', authenticate, sendTelegramNotification);
 
 export default router;
