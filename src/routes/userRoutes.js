@@ -9,6 +9,7 @@ import {
   sendTelegramNotification,
 } from '../controllers/userController.js';
 import { upload } from '../middleware/multer.js';
+import { env } from '../utils/env.js';
 
 const router = Router();
 
@@ -21,7 +22,9 @@ router.patch(
 
 router.patch('/users/me', authenticate, updateUser);
 
-router.get('/users/:userId/telegram-status', authenticate, getTelegramStatus);
-router.get('/users/notify', authenticate, sendTelegramNotification);
+if (env('NODE_ENV') === 'production') {
+  router.get('/users/:userId/telegram-status', authenticate, getTelegramStatus);
+  router.get('/users/notify', authenticate, sendTelegramNotification);
+}
 
 export default router;

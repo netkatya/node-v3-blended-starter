@@ -3,41 +3,55 @@ import { env } from '../utils/env.js';
 import { getUserByID } from '../services/userServices.js';
 import { updateUser } from '../controllers/userController.js';
 
-const bot = new TelegramBot(env('TELEGRAM_TOKEN'), { polling: true });
-console.log('🤖 Telegram бот запущено (polling)');
+let bot;
 
-bot.onText(/\/start (.+)/, async (msg, match) => {
-  const userId = match[1];
-  const chatId = msg.chat.id;
+if (env('NODE_ENV') === 'production') {
+  bot = new TelegramBot(env('TELEGRAM_TOKEN'), { polling: true });
+  console.log('🤖 Telegram бот запущено (polling)');
 
+  bot.onText(/\/start (.+)/, async (msg, match) => {
+    const userId = match[1];
+    const chatId = msg.chat.id;
+
+    try {
+      const user = await getUserByID(userId);
+      if (!user) {
+        await bot.sendMessage(chatId, '⚠️ Не знайдено користувача.');
+        return;
+      }
+
+      if (user.telegramChatId !== String(chatId)) {
+        await updateUser(user._id, {
+          telegramChatId: String(chatId),
+          telegramLinked: true,
+        });
+      }
+
+      await bot.sendMessage(
+        chatId,
+        `Привіт, ${msg.from.first_name}! ✅ Telegram підключено.`,
+      );
+      console.log(
+        `✅ Користувач ${user.username} підключив Telegram (${chatId})`,
+      );
+    } catch (err) {
+      console.error('Помилка Telegram:', err);
+      await bot.sendMessage(
+        chatId,
+        '❌ Сталася помилка при підключенні Telegram.',
+      );
+    }
+  });
+} else {
+  console.log('⚠️ Telegram bot не запущено (тільки для прод середовища)');
+}
+
+export { bot };
+
+export const sendTBMessage = async (chatId, message) => {
   try {
-    const user = await getUserByID(userId);
-    if (!user) {
-      await bot.sendMessage(chatId, '⚠️ Не знайдено користувача.');
-      return;
-    }
-
-    if (user.telegramChatId !== String(chatId)) {
-      await updateUser(user._id, {
-        telegramChatId: String(chatId),
-        telegramLinked: true,
-      });
-    }
-
-    await bot.sendMessage(
-      chatId,
-      `Привіт, ${msg.from.first_name}! ✅ Telegram підключено.`,
-    );
-    console.log(
-      `✅ Користувач ${user.username} підключив Telegram (${chatId})`,
-    );
+    await bot.sendMessage(chatId, message);
   } catch (err) {
-    console.error('Помилка Telegram:', err);
-    await bot.sendMessage(
-      chatId,
-      '❌ Сталася помилка при підключенні Telegram.',
-    );
+    console.error('Помилка при відправці повідомлення Telegram:', err);
   }
-});
-
-export default bot;
+};
