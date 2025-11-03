@@ -5,7 +5,7 @@ import { updateUser } from '../controllers/userController.js';
 
 let bot;
 
-if (env('NODE_ENV') === 'production') {
+if (env('NODE_ENV') === 'production1') {
   bot = new TelegramBot(env('TELEGRAM_TOKEN'), { polling: true });
   console.log('🤖 Telegram бот запущено (polling)');
 
