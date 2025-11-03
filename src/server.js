@@ -6,7 +6,7 @@ import { errors } from 'celebrate';
 import cookieParser from 'cookie-parser';
 
 import { connectMongoDB } from './db/connectMongoDB.js';
-import { logger } from './middleware/logger.js';
+// import { logger } from './middleware/logger.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
@@ -22,7 +22,7 @@ const PORT = process.env.PORT ?? 3030;
 swaggerDocs(app, PORT);
 // app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
-app.use(logger);
+// app.use(logger);
 app.use(express.json());
 app.use(cors());
 app.use(helmet());
@@ -33,8 +33,7 @@ app.use('/products', productsRouter);
 app.use(authRoutes);
 app.use(userRoutes);
 
-app.use("/orders", ordersRouter);
-
+app.use('/orders', ordersRouter);
 
 // handle 404
 app.use(notFoundHandler);
