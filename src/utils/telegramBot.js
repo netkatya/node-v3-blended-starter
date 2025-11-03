@@ -19,20 +19,22 @@ if (env('NODE_ENV') === 'production') {
         return;
       }
 
-      if (user.telegramChatId !== String(chatId)) {
-        await updateUserService(user._id, {
-          telegramChatId: String(chatId),
-          telegramLinked: true,
-        });
-      }
+      if (!user.telegramChatId) {
+        if (user.telegramChatId !== String(chatId)) {
+          await updateUserService(user._id, {
+            telegramChatId: String(chatId),
+            telegramLinked: true,
+          });
+        }
 
-      await bot.sendMessage(
-        chatId,
-        `Привіт, ${msg.from.first_name}! ✅ Telegram підключено.`,
-      );
-      console.log(
-        `✅ Користувач ${user.username} підключив Telegram (${chatId})`,
-      );
+        await bot.sendMessage(
+          chatId,
+          `Привіт, ${msg.from.first_name}! ✅ Telegram підключено.`,
+        );
+        console.log(
+          `✅ Користувач ${user.username} підключив Telegram (${chatId})`,
+        );
+      }
     } catch (err) {
       console.error('Помилка Telegram:', err);
       await bot.sendMessage(
