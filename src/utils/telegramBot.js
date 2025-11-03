@@ -1,11 +1,10 @@
 import TelegramBot from 'node-telegram-bot-api';
 import { env } from '../utils/env.js';
-import { getUserByID } from '../services/userServices.js';
-import { updateUser } from '../controllers/userController.js';
+import { getUserByID, updateUserService } from '../services/userServices.js';
 
 let bot;
 
-if (env('NODE_ENV') === 'production1') {
+if (env('NODE_ENV') === 'production') {
   bot = new TelegramBot(env('TELEGRAM_TOKEN'), { polling: true });
   console.log('🤖 Telegram бот запущено (polling)');
 
@@ -21,7 +20,7 @@ if (env('NODE_ENV') === 'production1') {
       }
 
       if (user.telegramChatId !== String(chatId)) {
-        await updateUser(user._id, {
+        await updateUserService(user._id, {
           telegramChatId: String(chatId),
           telegramLinked: true,
         });
@@ -48,9 +47,10 @@ if (env('NODE_ENV') === 'production1') {
 
 export { bot };
 
-export const sendTBMessage = async (chatId, message) => {
+// Функція для відправки повідомлень через Telegram бот, parseMode= 'HTML' або "" - для текста без форматування
+export const sendTelegramMessage = async (chatId, message, parseMode = '') => {
   try {
-    await bot.sendMessage(chatId, message);
+    await bot.sendMessage(chatId, message, { parse_mode: parseMode });
   } catch (err) {
     console.error('Помилка при відправці повідомлення Telegram:', err);
   }
