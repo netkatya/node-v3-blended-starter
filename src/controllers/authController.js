@@ -5,6 +5,8 @@ import { createSession, setSessionCookies } from '../services/auth.js';
 import { Session } from '../models/session.js';
 
 import { sendMail } from '../utils/sendMail.js';
+const { sendTelegramMessage } = await import('../utils/telegramBot.js');
+
 import jwt from 'jsonwebtoken';
 
 import handlebars from 'handlebars';
@@ -98,7 +100,9 @@ export const requestResetEmail = async (req, res, next) => {
   // handlebars
 
   // 1. Формуємо шлях до шаблона
-  const templatePath = path.resolve('src/templates/reset-password-email.html');
+  const templatePath = user.telegramLinked
+    ? path.resolve('src/templates/reset-password-telegram.html')
+    : path.resolve('src/templates/reset-password-email.html');
   // 2. Читаємо шаблон
   const templateSource = await fs.readFile(templatePath, 'utf-8');
   // 3. Готуємо шаблон до заповнення
@@ -109,20 +113,29 @@ export const requestResetEmail = async (req, res, next) => {
     link: `${process.env.FRONTEND_DOMAIN}/reset-password?token=${resetToken}`,
   });
 
-  try {
-    await sendMail({
-      from: process.env.SMTP_FROM,
-      to: email,
-      subject: 'Reset your password',
-      html,
-    });
-  } catch {
-    next(createHttpError(500, 'Failed to send the email.'));
-    return;
+  if (user.telegramLinked) {
+    try {
+      await sendTelegramMessage(user.telegramChatId, html, 'HTML');
+    } catch {
+      next(createHttpError(500, 'Failed to send Telegram message.'));
+      return;
+    }
+  } else {
+    try {
+      await sendMail({
+        from: process.env.SMTP_FROM,
+        to: email,
+        subject: 'Reset your password',
+        html,
+      });
+    } catch {
+      next(createHttpError(500, 'Failed to send the email.'));
+      return;
+    }
   }
 
   res.status(200).json({
-    message: 'Password reset email sent successfully',
+    message: 'Password reset message sent successfully',
   });
 };
 
@@ -140,6 +153,7 @@ export const resetPassword = async (req, res, next) => {
     next(createHttpError(404, 'User not found'));
     return;
   }
+
   const hashedPassword = await bcrypt.hash(password, 10);
   await User.updateOne({ _id: user._id }, { password: hashedPassword });
   await Session.deleteMany({ userId: user._id });

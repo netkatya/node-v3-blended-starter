@@ -5,7 +5,7 @@ export const getUserByID = async (userId) => {
   return user;
 };
 
-export const updateUser = async (userId, updateData) => {
+export const updateUserService = async (userId, updateData) => {
   const user = await User.findByIdAndUpdate(userId, updateData, {
     new: true,
   });
