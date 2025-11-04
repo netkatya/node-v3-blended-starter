@@ -6,7 +6,7 @@ let bot;
 
 if (env('NODE_ENV') === 'production') {
   bot = new TelegramBot(env('TELEGRAM_TOKEN'), { polling: true });
-  console.log('🤖 Telegram бот запущено (polling)');
+  console.log('🤖 Telegram bot has been launched (polling)');
 
   bot.onText(/\/start (.+)/, async (msg, match) => {
     const userId = match[1];
@@ -15,7 +15,7 @@ if (env('NODE_ENV') === 'production') {
     try {
       const user = await getUserByID(userId);
       if (!user) {
-        await bot.sendMessage(chatId, '⚠️ Не знайдено користувача.');
+        await bot.sendMessage(chatId, '⚠️ user not found.');
         return;
       }
 
@@ -29,22 +29,20 @@ if (env('NODE_ENV') === 'production') {
 
         await bot.sendMessage(
           chatId,
-          `Привіт, ${msg.from.first_name}! ✅ Telegram підключено.`,
+          `Hello, ${msg.from.first_name}! ✅ Telegram connected.`,
         );
-        console.log(
-          `✅ Користувач ${user.username} підключив Telegram (${chatId})`,
-        );
+        console.log(`✅ User ${user.username} connected Telegram (${chatId})`);
       }
     } catch (err) {
-      console.error('Помилка Telegram:', err);
+      console.error('Telegram error:', err);
       await bot.sendMessage(
         chatId,
-        '❌ Сталася помилка при підключенні Telegram.',
+        '❌ An error occurred while connecting Telegram.',
       );
     }
   });
 } else {
-  console.log('⚠️ Telegram bot не запущено (тільки для прод середовища)');
+  console.log('⚠️ Telegram bot not launched (only for production environment)');
 }
 
 export { bot };
@@ -54,6 +52,6 @@ export const sendTelegramMessage = async (chatId, message, parseMode = '') => {
   try {
     await bot.sendMessage(chatId, message, { parse_mode: parseMode });
   } catch (err) {
-    console.error('Помилка при відправці повідомлення Telegram:', err);
+    console.error('Error sending Telegram message:', err);
   }
 };

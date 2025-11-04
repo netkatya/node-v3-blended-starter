@@ -24,7 +24,7 @@ router.patch('/users/me', authenticate, updateUser);
 
 if (env('NODE_ENV') === 'production') {
   router.get('/users/:userId/telegram-status', authenticate, getTelegramStatus);
-  router.get('/users/notify', authenticate, sendTelegramNotification);
+  router.post('/users/notify', authenticate, sendTelegramNotification);
 }
 
 export default router;
