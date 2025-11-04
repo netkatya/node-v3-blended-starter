@@ -38,9 +38,14 @@ export const updateUser = async (req, res, next) => {
 };
 
 export const getTelegramStatus = async (req, res, next) => {
-  const user = await User.findById(req.user._id, { new: true });
+  const { id: userId } = req.params;
+  const user = await User.findById(userId, { new: true });
 
-  res.status(200).json({ isLinked: !!user?.telegramChatId });
+  res.status(200).json({
+    isLinked: !!user?.telegramChatId,
+    telegramChatId: user?.telegramChatId,
+    userID: user?._id,
+  });
 };
 
 export const sendTelegramNotification = async (req, res, next) => {
