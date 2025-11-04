@@ -11,6 +11,7 @@ if (env('NODE_ENV') === 'production') {
   bot.onText(/\/start (.+)/, async (msg, match) => {
     const userId = match[1];
     const chatId = msg.chat.id;
+    const telegramId = msg.from.id;
 
     try {
       const user = await getUserByID(userId);
@@ -23,6 +24,7 @@ if (env('NODE_ENV') === 'production') {
         if (user.telegramChatId !== String(chatId)) {
           await updateUserService(user._id, {
             telegramChatId: String(chatId),
+            telegramUserId: String(telegramId),
             telegramLinked: true,
           });
         }
